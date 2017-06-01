@@ -6,10 +6,6 @@ A bunch of configuration files for editors and other UNIX tools.
 Installation
 ------------
 
-Clone this repo into `~/.dotfiles`:
-
-    $ git clone git@github.com:xqliang/dotfiles.git ~/.dotfiles
-
 Then install the dotfiles:
 
     $ cd ~/.dotfiles
