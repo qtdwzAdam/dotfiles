@@ -29,6 +29,7 @@ set backup writebackup
 set backupdir=$HOME/.vim/backup " Where to put backup file
 set directory=$HOME/.vim/swap   " Where to put swap file
 "set mouse=a
+set nu
 set noerrorbells novisualbell
 set hlsearch incsearch
 set ignorecase smartcase        " Searches case-sensitive only if they
@@ -509,7 +510,7 @@ nnoremap <leader>bn :bn<CR>
 
 
 " Insert or delete brackets, parens, quotes in pair
-Plug 'xqliang/Auto-Pairs'
+Plug 'jiangmiao/auto-pairs'
 " Confict when xptemplate restore <CR> mapping, so disable it
 let g:AutoPairsMapCR=0
 
