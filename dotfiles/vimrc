@@ -321,8 +321,8 @@ endfunc
     map <F12> :call Run()<CR>
 
     " http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
-    nnoremap <F9> :set invpaste paste?<CR>
-    set pastetoggle=<F9>
+    nnoremap <F2> :set invpaste paste?<CR>
+    set pastetoggle=<F2>
 
 
     " <F7> 切换行号显示
@@ -384,7 +384,7 @@ endfunc
     Plug 'vim-scripts/Rainbow-Parenthesis'
     Plug 'easymotion/vim-easymotion'
     Plug 'corntrace/bufexplorer'
-    map <silent><F4> :BufExplorer<cr>
+    map <silent><F8> :BufExplorer<cr>
 
     Plug 'wesleyche/SrcExpl'
     Plug 'nathanaelkane/vim-indent-guides'
@@ -584,7 +584,7 @@ Plug 'scrooloose/nerdcommenter'
 
 " A tree explorer plugin for navigating the filesystem
 Plug 'scrooloose/nerdtree'
-nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <F10> :NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.class$', '\.o$']
 " http://superuser.com/questions/195022/vim-how-to-synchronize-nerdtree-with-current-opened-tab-file-path
 map <leader>f :NERDTreeFind<CR>
@@ -602,7 +602,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 
 Plug 'vim-scripts/taglist.vim'
-nnoremap <F3> :TlistToggle<CR>
+nnoremap <F9> :TlistToggle<CR>
 let Tlist_Use_Right_Window=1
 
 
