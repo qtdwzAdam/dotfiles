@@ -1,22 +1,31 @@
-alias vimbashrc='vim ~/.bashrc'
-alias sourcebashrc='source ~/.bashrc'
-alias sourcenightswatch='source ~/.virtualenvs/nightswatch/bin/activate'
+# Some good standards, which are not used if the user
+# creates his/her own .bashrc/.bash_profile
+
+# --show-control-chars: help showing Korean or accented characters
+# some more ls aliases
+alias ll='ls -lh'
+alias la='ll -a'
+alias ls='ls --color=auto'
+alias l='ll'
+alias lg='ll |grep -ni'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias findword='dict -d gcide'
+alias findsame='dict -d moby-thesaurus'
 alias vimvimrc='vim ~/.vimrc'
+alias vimbashrc='vim ~/.bashrc'
+alias cd-='cd -'
+alias sourcebashrc='source ~/.bashrc'
+alias runmanager='python manage.py runserver 0.0.0.0:8000'
+
+alias grepword='myfind'
 
 # alias vim="mvim"
 # alias python="/Users/adam/anaconda/bin/python"
 alias pyuic4='python /Users/adam/anaconda/lib/python2.7/site-packages/PyQt4/uic/pyuic.py'
-# some more ls aliases
-alias ll='ls -alFh'
-alias la='ls -A'
-alias l='ll'
-alias lg='ll |grep -rni '
-alias findword='dict -d gcide'
-alias findsame='dict -d moby-thesaurus'
-alias vimvimrc='vim ~/.vimrc'
-alias cd-='cd -'
-alias grepword='myfind'
-alias cdccqa='cd ~/Documents/CC/ccQA.git'
 
 #alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gl='git log --graph --all --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'\'''\''      %C(white)%s%C(reset) %C(bold white)— %an%C(reset)'\'' --abbrev-commit'
@@ -29,8 +38,6 @@ alias aliasgrep='alias |grep '
 alias myzip='dwzzip'
 alias myarchive='dwzarchive'
 alias vimupdata='rm tags && ctags -R && rm cscope* && cscope -Rbq'
-alias ccpython='~/python-virtual/ccqa/bin/python '
-alias ccpip='~/python-virtual/ccqa/bin/pip '
 
 #********************************************************
 #    start of mine
@@ -50,7 +57,6 @@ alias .6='cd ../../../../../../'
 alias .7='cd ../../../../../../../'
 alias .8='cd ../../../../../../../../'
 
-alias agi='sudo apt-get install -y'
 alias lt='ls -alth | head -n 30'
 alias lw='ll --color $1 | tail -n 15 |sort -r -k 5'
 alias lhd='ls -Gal | grep ^d' #Only list directories, including hidden ones
@@ -126,15 +132,18 @@ dwzarchive() {
   systime_M_D_H_M=`date +%m_%d-%H_%M`
   git archive --format zip --output ${tmp} master
 }
+
 dwzzip() {
   tmp=$(echo $1 | awk -F / '{if($NF=="")print $(NF-1);else print $(NF)}')
   sourcebashrc
   systime_M_D_H_M=`date +%m_%d-%H_%M`
   zip -r $systime_M_D_H_M-${tmp}.zip $1
 }
+
 dwzmcd() {
   mkdir -p "$1" && cd "$1"
 }
+
 myfind()
 {
   grep -rni $@ *
@@ -304,4 +313,16 @@ if which tmux 2>&1 >/dev/null; then
   #export DISABLE_AUTO_TITLE=true
   export tm
 fi
+
+LS_COLORS='no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:ow=30;42:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:'
+export LS_COLORS
+
+export PS1='\[\e[0;32m\]\u\[\e[0m\]@\[\e[0;34m\]\h\[\e[0m\] | \[\e[0;33m\]\t\[\e[0m\] | \[\e[0;35m\]\w\n\[\e[0;31m\]\$\[\e[0m\] '
+export PATH="~/bin:$PATH"
+
+
+alias sourcenightswatch='source /home/cc/.virtualenvs/nightswatch/bin/activate'
+alias cdccqa='cd ~gzzhousibo/www/ccQA/'
+alias ccpython='~/python-virtual/ccqa/bin/python '
+alias ccpip='~/python-virtual/ccqa/bin/pip '
 
