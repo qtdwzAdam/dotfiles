@@ -383,7 +383,7 @@ endfunc
 
     Plug 'vim-scripts/Rainbow-Parenthesis'
     Plug 'easymotion/vim-easymotion'
-    Plug 'jlanzarotta/bufexplorer'
+    Plug 'corntrace/bufexplorer'
     map <silent><F4> :BufExplorer<cr>
 
     Plug 'wesleyche/SrcExpl'
@@ -673,6 +673,8 @@ if v:version >= 704 || (v:version == 703 && has("patch584"))
     " noremap <leader>gc :YcmCompleter GoToDeclaration<CR>
     " noremap <leader>gd :YcmCompleter GoToDefinition<CR>
     " noremap <leader>gr :YcmCompleter GoToReferences<CR>
+    Plug 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType=""
 else
     " Perform all your vim insert mode completions with Tab
     Plug 'ervandew/supertab'
