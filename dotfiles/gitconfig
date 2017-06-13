@@ -1,3 +1,5 @@
+[color]
+	ui = true
 [alias]
 	br = branch
 	ci = commit
