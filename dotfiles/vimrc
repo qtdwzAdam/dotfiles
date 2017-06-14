@@ -644,12 +644,12 @@ endif
 "   zR Open all folds
 "   zM Close all folds
 "   zj and zk Jump from one fold to another
-Plug 'tmhedberg/SimpylFold'
-let g:SimpylFold_docstring_preview = 1
-nnoremap <space> za
-vnoremap <space> zf
-autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+" Plug 'tmhedberg/SimpylFold'
+" let g:SimpylFold_docstring_preview = 1
+" nnoremap <space> za
+" vnoremap <space> zf
+" autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+" autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 
 if v:version >= 704 || (v:version == 703 && has("patch584"))
