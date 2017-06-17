@@ -20,7 +20,7 @@ call MakeDir($HOME . '/.vim/backup')
 call MakeDir($HOME . '/.vim/swap')
 
 set nocompatible
-set binary
+" set binary  " 16 进制
 set modelines=5  " System vimrc shipped with OSX sets the modelines variable to 0
 " Prevent vim from trying to connect to the X server, it cause vim startup
 " too slow in tmux. (vim --startuptime log; cat log | sort -k 2 | tail)
@@ -58,23 +58,10 @@ set encoding=utf-8
 set fileencodings=utf-8,chinese,latin-1
 
 
-
 if has("win32")
     set fileencoding=chinese
 else
     set fileencoding=utf-8
-endif
-if(has("win32") || has("win64"))
-    let g:isWIN = 1
-    let g:isMAC = 0
-else
-    if system("uname") =~ "Darwin"
-        let g:isWIN = 0
-        let g:isMAC = 1
-    else
-        let g:isWIN = 0
-        let g:isMAC = 0
-    endif
 endif
 
 
@@ -125,9 +112,6 @@ set cindent              " Make sure '#' input in .py file won't goto column 1
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 "set cursorline
 set noexpandtab
-set foldmethod=syntax
-set foldlevel=100        " Do not fold when open file
-set foldcolumn=0         " No fold column
 "set nonumber nolist
 set listchars=tab:»\ ,trail:-,extends:>
 set scrolloff=3          " Keep more context when scrolling off the end of a buffer
@@ -185,11 +169,12 @@ nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
 " Clear out a search
 nnoremap <leader><cr> :noh<CR>
 " Keep only this window/tabpage open
-nnoremap <leader>ow :only<CR>
-nnoremap <leader>ot :tabonly<CR>
+"nnoremap <leader>ow :only<CR>
+"nnoremap <leader>ot :tabonly<CR>
 " Jump to matching pairs easily, with Tab
-nnoremap <Tab> %
-vnoremap <Tab> %
+"nnoremap <Tab> %
+"vnoremap <Tab> %
+nnoremap <leader>l %
 " Force saving files that require root permission
 cnoremap W<CR> w !sudo tee > /dev/null %<CR>
 
@@ -695,12 +680,15 @@ endif
 "   zR Open all folds
 "   zM Close all folds
 "   zj and zk Jump from one fold to another
-" Plug 'tmhedberg/SimpylFold'
-" let g:SimpylFold_docstring_preview = 1
-" nnoremap <space> za
-" vnoremap <space> zf
-" autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-" autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+Plug 'tmhedberg/SimpylFold'
+let g:SimpylFold_docstring_preview = 1
+nnoremap <space> za
+vnoremap <space> zf
+"autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+"autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+set foldmethod=indent
+set foldlevel=100        " Do not fold when open file
+set foldcolumn=0         " No fold column
 
 
 if v:version >= 704 || (v:version == 703 && has("patch584"))
