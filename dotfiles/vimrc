@@ -111,7 +111,7 @@ set autoindent
 set cindent              " Make sure '#' input in .py file won't goto column 1
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 "set cursorline
-set noexpandtab
+set expandtab
 "set nonumber nolist
 set listchars=tab:»\ ,trail:-,extends:>
 set scrolloff=3          " Keep more context when scrolling off the end of a buffer
