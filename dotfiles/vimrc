@@ -774,3 +774,7 @@ endif
 
 " vim: et tw=4 sw=4
 
+if filereadable(expand("~/.vimrc_local"))
+    source ~/.vimrc_local
+endif
+

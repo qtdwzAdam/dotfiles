@@ -331,4 +331,8 @@ fi
 alias cdccqa='cd ~gzzhousibo/www/ccQA/'
 alias ccpython='~/python-virtual/ccqa/bin/python '
 alias ccpip='~/python-virtual/ccqa/bin/pip '
+# include .bashrc if it exists
+if [ -f $HOME/.bashrc_local  ]; then
+    . $HOME/.bashrc_local
+fi
 
