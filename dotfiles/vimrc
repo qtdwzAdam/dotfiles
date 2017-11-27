@@ -119,7 +119,6 @@ set shiftwidth=4
 set smartindent
 set smarttab
 set tabstop=4
-set textwidth=80
 if v:version >= 703
     call MakeDir($HOME . '/.vim/undo')
     set undofile        " Keep a persistent undo file
