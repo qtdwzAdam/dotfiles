@@ -1,9 +1,15 @@
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'Valloric/YouCompleteMe'
+", { 'do': './install.py --clang-completer' }
 "let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:ycm_global_ycm_extra_conf='$HOME/.vim/bundle/YouCompleteMe/third_part/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_complete_in_comments=1
 let g:ycm_collect_identifiers_from_comments_and_strings=1
 let g:ycm_collect_identifiers_from_tags_files=1
 noremap <leader>gc :YcmCompleter GoToDeclaration<CR>
 noremap <leader>gd :YcmCompleter GoToDefinition<CR>
 noremap <leader>gr :YcmCompleter GoToReferences<CR>
+let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+" Plug 'ervandew/supertab'
+" let g:SuperTabDefaultCompletionType=""
+" Plug 'Shougo/neocomplcache.vim'
+" let g:neocomplcache_enable_at_startup=1
+" let g:neocomplcache_disable_auto_complete=1
