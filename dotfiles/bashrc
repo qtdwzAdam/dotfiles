@@ -312,27 +312,21 @@ if which tmux 2>&1 >/dev/null; then
   export tm
 fi
 
-if [[ $`uname -a` =~ "Mac"  ]] ; then
-	echo ""
-else
-	LS_COLORS='no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:ow=30;42:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:'
-	export LS_COLORS
-	export PS1='\[\e[0;32m\]\u\[\e[0m\]@\[\e[0;34m\]\h\[\e[0m\] | \[\e[0;33m\]\t\[\e[0m\] | \[\e[0;35m\]\w\n\[\e[0;31m\]\$\[\e[0m\] '
-fi
 
 export PATH="~/bin:$PATH"
 
 
-if [[ $`uname -a` =~ "Mac"  ]] ; then
-	alias sourcenightswatch='source ~/.virtualenvs/nightswatch/bin/activate'
-	alias sourceflasktest='source ~/.virtualenvs/flask_test/bin/activate'
-	alias sourceccmonitor='source ~/.virtualenvs/ccmonitor/bin/activate'
-fi
-alias cdccqa='cd ~gzzhousibo/www/ccQA/'
-alias ccpython='~/python-virtual/ccqa/bin/python '
-alias ccpip='~/python-virtual/ccqa/bin/pip '
 # include .bashrc if it exists
-if [ -f $HOME/.bashrc_local  ]; then
-    . $HOME/.bashrc_local
+if [ -f $HOME/.local_bashrc  ]; then
+    . $HOME/.local_bashrc
 fi
 
+if [[ $`uname -a` =~ "Mac"  ]] ; then
+    if [ -f $HOME/.mac_bashrc  ]; then
+        . $HOME/.mac_bashrc
+    fi
+else
+    if [ -f $HOME/.linux_bashrc  ]; then
+        . $HOME/.linux_bashrc
+    fi
+fi

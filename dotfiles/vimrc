@@ -1,7 +1,14 @@
-if (has("win32") || has("win64"))
-    let g:isUnix=0
+if(has("win32") || has("win64"))
+    let g:isWIN = 1
+    let g:isMAC = 0
 else
-    let g:isUnix=1
+    if system("uname") =~ "Darwin"
+        let g:isWIN = 0
+        let g:isMAC = 1
+    else
+        let g:isWIN = 0
+        let g:isMAC = 0
+    endif
 endif
 
 function! MakeDir (dir)
@@ -19,77 +26,55 @@ endfunction
 call MakeDir($HOME . '/.vim/backup')
 call MakeDir($HOME . '/.vim/swap')
 
-set nocompatible
-" set binary  " 16 进制
-set modelines=5  " System vimrc shipped with OSX sets the modelines variable to 0
-" Prevent vim from trying to connect to the X server, it cause vim startup
-" too slow in tmux. (vim --startuptime log; cat log | sort -k 2 | tail)
-set clipboard=autoselect,exclude:cons\\\|linux\\\|screen\\\|rxvt\\\|cygwin
-set backup writebackup
-set backupdir=$HOME/.vim/backup " Where to put backup file
-set directory=$HOME/.vim/swap   " Where to put swap file
-"set mouse=a
-set nu
-set noerrorbells novisualbell
-set hlsearch incsearch
-set ignorecase smartcase        " Searches case-sensitive only if they
-                                " contains upper-case letter
-set shortmess+=I                " Hide the launch screen
-set viminfo='20,\"50            " Store command/search/.. history in .viminfo
-set showcmd
-set wildmenu wildignore=*.o,*~,*.pyc
-if g:isUnix
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-else
-    set wildignore+=.git\*,.hg\*,.svn\*
-endif
-
-
-" Encoding
-set ambiwidth=double
-" handle the miss leading chinese.
-let &termencoding=&encoding
-" set fileencodings=utf-8
-set encoding=utf-8
-"set encoding=utf-8
-"" set fileencodings=ucs-bom,utf-8,gbk
-"set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-"set fileformats=unix,dos,mac
-set fileencodings=utf-8,chinese,latin-1
-
-
-if has("win32")
-    set fileencoding=chinese
-else
-    set fileencoding=utf-8
-endif
+source $HOME/.normal_vimrc
 
 
 if has("autocmd")
-    "Set UTF-8 as the default encoding for commit messages
-    autocmd BufReadPre COMMIT_EDITMSG,git-rebase-todo setlocal fileencodings=utf-8
+    augroup EditVim
+        "autocmd BufNewFile *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua exec ":call SetTitle()"
+        if v:version >= 703
+            call MakeDir($HOME . '/.vim/undo')
+            set undofile        " Keep a persistent undo file
+            set undodir=$HOME/.vim/undo,/tmp
+            au BufWritePre $HOME/.vim/undo/* setlocal noundofile
+            au BufWritePre /tmp/* setlocal noundofile
+        endif
 
-    "Remember the positions in files with some git-specific exceptions"
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$")
-                \           && expand("%") !~ "COMMIT_EDITMSG"
-                \           && expand("%") !~ "ADD_EDIT.patch"
-                \           && expand("%") !~ "addp-hunk-edit.diff"
-                \           && expand("%") !~ "git-rebase-todo" |
-                \   exe "normal g`\"" |
-                \ endif
+        "Set UTF-8 as the default encoding for commit messages
+        autocmd BufReadPre COMMIT_EDITMSG,git-rebase-todo setlocal fileencodings=utf-8
 
-    autocmd BufNewFile,BufRead *.patch set filetype=diff
-    autocmd BufNewFile,BufRead *.diff set filetype=diff
+        "Remember the positions in files with some git-specific exceptions"
+        autocmd BufReadPost *
+                    \ if line("'\"") > 0 && line("'\"") <= line("$")
+                    \           && expand("%") !~ "COMMIT_EDITMSG"
+                    \           && expand("%") !~ "ADD_EDIT.patch"
+                    \           && expand("%") !~ "addp-hunk-edit.diff"
+                    \           && expand("%") !~ "git-rebase-todo" |
+                    \   exe "normal g`\"" |
+                    \ endif
 
-    autocmd Syntax diff
-                \ highlight WhiteSpaceEOL ctermbg=red |
-                \ match WhiteSpaceEOL /\(^+.*\)\@<=\s\+$/
+        " map the SetLastModifiedTime command automatically
+        autocmd BufWrite *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua call SetLastModifiedTime(-1)
 
-    autocmd Syntax gitcommit setlocal textwidth=74
+        autocmd Syntax diff
+                    \ highlight WhiteSpaceEOL ctermbg=red |
+                    \ match WhiteSpaceEOL /\(^+.*\)\@<=\s\+$/
+
+        autocmd Syntax gitcommit setlocal textwidth=74
+
+        " Hilight text over length (set colorcolumn=80)
+        au BufEnter *.py,*.c,*.cpp,*.h,*.java silent! setlocal colorcolumn=80
+        au filetype python,c,cpp,h,java,javascript,css setlocal number
+        au filetype vim,python,c,cpp,h,java,rst,ruby,javascript,css setlocal list
+
+        " Have Vim jump to the last position when reopening a file
+        au BufReadPost * exe "normal! g`\""
+    augroup END
 endif " has("autocmd")
+
 language messages zh_CN.utf-8
-if (!g:isUnix && has("gui_running"))
+
+if (g:isWIN && has("gui_running"))
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
     language messages zh_CN.utf-8
@@ -106,266 +91,6 @@ if (!g:isUnix && has("gui_running"))
 endif
 
 
-" Editor
-set autoindent
-set cindent              " Make sure '#' input in .py file won't goto column 1
-set backspace=indent,eol,start " Allow backspacing over everything in insert mode
-"set cursorline
-set expandtab
-"set nonumber nolist
-set listchars=tab:»\ ,trail:-,extends:>
-set scrolloff=3          " Keep more context when scrolling off the end of a buffer
-set shiftwidth=4
-set smartindent
-set smarttab
-set tabstop=4
-if v:version >= 703
-    call MakeDir($HOME . '/.vim/undo')
-    set undofile        " Keep a persistent undo file
-    set undodir=$HOME/.vim/undo,/tmp
-    au BufWritePre $HOME/.vim/undo/* setlocal noundofile
-    au BufWritePre /tmp/* setlocal noundofile
-endif
-" Prevent Vim from clobbering the scrollback buffer. See
-" http://www.shallowsky.com/linux/noaltscreen.html
-" Or put it to .bashrc: export LESS="-X"
-set t_ti= t_te=
-set timeout timeoutlen=800 ttimeoutlen=100
-
-" 解决超长行移动光标困难
-:nmap <UP> gk
-:imap <UP> <ESC>gka
-:nmap <DOWN> gj
-:imap <DOWN> <ESC>gja
-
-" Color
-syntax enable
-filetype plugin on
-
-" Hilight text over length (set colorcolumn=80)
-au BufEnter *.py,*.c,*.cpp,*.h,*.java silent! setlocal colorcolumn=80
-au filetype python,c,cpp,h,java,javascript,css setlocal number
-au filetype vim,python,c,cpp,h,java,rst,ruby,javascript,css setlocal list
-
-" Have Vim jump to the last position when reopening a file
-au BufReadPost * exe "normal! g`\""
-
-
-" Custom key mappings
-let mapleader=","
-nnoremap ; :
-cnoremap jj <C-U><Esc>
-" Quickly get out of insert mode without your fingers having to leave the
-" home row, equals to <ESC>,<C-C>,<C-[>
-inoremap jj <Esc>
-inoremap jw <Esc>:w<CR>a
-" Quickly Esc, save file, close file and reload vimrc
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
-" nnoremap <leader>r :so $MYVIMRC<CR>
-" Pull word under cursor into LHS of a substitute (for search and replace)
-nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
-" Clear out a search
-nnoremap <leader><cr> :noh<CR>
-" Keep only this window/tabpage open
-"nnoremap <leader>ow :only<CR>
-"nnoremap <leader>ot :tabonly<CR>
-" Jump to matching pairs easily, with Tab
-"nnoremap <Tab> %
-"vnoremap <Tab> %
-nnoremap <leader>l %
-" Force saving files that require root permission
-cnoremap W<CR> w !sudo tee > /dev/null %<CR>
-
-" Switch window
-nnoremap <C-J> <C-W>j
-nnoremap <C-K> <C-W>k
-nnoremap <C-L> <C-W>l
-nnoremap <C-H> <C-W>h
-nnoremap <C-_> <C-W>_
-" Alt  + H            光标左移一格
-imap <m-h> <Left>
-" Alt  + J            光标下移一格
-imap <m-j> <Down>
-" Alt  + K            光标上移一格
-imap <m-k> <Up>
-" Alt  + L            光标右移一格
-imap <m-l> <Right>
-
-" \c                  复制至公共剪贴板
-vmap <leader>c "+y
-
-" \a                  复制所有至公共剪贴板
-nmap <leader>a <ESC>ggVG"+y<ESC>
-
-" \v                  从公共剪贴板粘贴
-imap <leader>v <ESC>"+p
-nmap <leader>v "+p
-vmap <leader>v "+p
-
-map <leader>rt :call RemoveTabs()<cr>
-func! RemoveTabs()
-    if &shiftwidth == 2
-        exec "%s/    /  /g"
-        exec "%s/\t/  /g"
-    elseif &shiftwidth == 4
-        exec "%s/    /    /g"
-        exec "%s/\t/    /g"
-    elseif &shiftwidth == 6
-        exec "%s/    /      /g"
-        exec "%s/\t/      /g"
-    elseif &shiftwidth == 8
-        exec "%s/    /        /g"
-        exec "%s/\t/        /g"
-    else
-        exec "%s/    / /g"
-        exec "%s/\t/ /g"
-    end
-endfunc
-" \rb                 一键去除所有尾部空白
-imap <leader>rb <ESC>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-nmap <leader>rb :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-vmap <leader>rb <ESC>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-
-" \rm                 一键去除字符
-imap <leader>rm <ESC>:%s/<c-v><c-m>//g<CR>
-nmap <leader>rm :%s/<c-v><c-m>//g<CR>
-vmap <leader>rm <ESC>:%s/<c-v><c-m>//g<CR>
-
-nnoremap [I :call UnderOccurences()<CR>
-function! UnderOccurences()
-    exe "normal! [I"
-    let nr = input("Which one: ")
-    if nr == ""
-        return
-    endif
-    exe "normal! " . nr . "[\t"
-endfunction!
-
-nnoremap [S :call <SID>FindOccurences()<CR>
-function! s:FindOccurences()
-    let pattern = input("Prompt Find: ")
-    if pattern == ""
-        return
-    endif
-    "   exe "ilist " . pattern // Robby Changed according to JumpPrompt()
-    exe "ilist! " . pattern
-    let nr = input("Which one: ")
-    if nr == ""
-        return
-    endif
-    exe "ijump " . nr . pattern
-endfunction
-
-" press 0 to the front
-map 0 ^
-
-function! IsMostWin(dir)
-    let old = winnr()
-    if a:dir == "left"
-        silent! exe "normal! \<c-w>h"
-    elseif a:dir == "right"
-        silent! exe "normal! \<c-w>l"
-    elseif a:dir == "top"
-        silent! exe "normal! \<c-w>k"
-    elseif a:dir == "bottom"
-        silent! exe "normal! \<c-w>j"
-    endif
-    let new = winnr()
-    silent! exe old.'wincmd w'
-    return old == new
-endfunction
-
-" Resize window
-nnoremap <silent> <C-W><C-J> :exe ":res ".(IsMostWin('bottom')?'-':'+').5<CR>
-nnoremap <silent> <C-W><C-K> :exe ":res ".(IsMostWin('bottom')?'+':'-').5<CR>
-nnoremap <silent> <C-W><C-L> :exe ":vertical res ".(IsMostWin('right')?'-':'+').5<CR>
-nnoremap <silent> <C-W><C-H> :exe ":vertical res ".(IsMostWin('right')?'+':'-').5<CR>
-
-" Bash like keys for the command line
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
-
-" Move cursor together with the screen
-nnoremap <DOWN> gj<C-E>
-nnoremap <UP> gk<C-Y>
-
-
-" Translate
-" INSTALL:
-"   $ sudo apt-get install sdcv
-"   $ mkdir -p ~/.stardict/dic
-"   $ wget http://abloz.com/huzheng/stardict-dic/zh_CN/stardict-langdao-ec-gb-2.4.2.tar.bz2
-"   $ tar -xvjf stardict-langdao-ec-gb-2.4.2.tar.bz2 -C ~/.stardict/dic
-" KEYS:
-"   F Translate word under cursor in normal mode
-function! DictTranslate()
-    let expl=system('sdcv --utf8-output -n ' . expand("<cword>"))
-    windo if expand("%")=="__startdict__" | q! | endif
-    35vsp __startdict__
-    setlocal buftype=nofile bufhidden=hide noswapfile
-    1s/^/\=expl/
-    1
-endfunction
-nnoremap F :call DictTranslate()<CR>
-
-
-" Run
-set makeprg=g++\ -Wall\ -o\ %<.exe\ %
-func! Compile()
-    exec "w"
-    if &filetype == "c"
-        exec "!gcc % -g -o %<.exe"
-    elseif &filetype == "cpp"
-        exec "!g++ % -g -o %<.exe"
-    elseif &filetype == "java"
-        if exists(":Vjdec")
-            exec ":Vjdec"
-        elseif exists(":Javac")
-            exec ":Javac %"
-        else
-            exec "!javac %"
-        endif
-    elseif &filetype == "python"
-        exec "!pycompile %<.py"
-    elseif &filetype == "sh"
-        exec "!bash %"
-    endif
-endfunc
-
-func! Run()
-    if &filetype == "c"
-        exec "!./%<.exe"
-    elseif &filetype == "cpp"
-        exec "!./%<.exe"
-    elseif &filetype == "java"
-        if exists(":Vjder")
-            exec ":Vjder %<"
-        elseif exists(":Java")
-            exec ":Java %<"
-        else
-            exec "!java %<"
-        endif
-    elseif &filetype == "python"
-        exec "!python %<.py"
-    elseif &filetype == "sh"
-        exec "!bash %"
-    endif
-endfunc
-map <F5> :w!<cr>:call Compile()<CR>
-map <F12> :w!<cr>:call Run()<CR>
-
-" http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
-
-
-" <F7> 切换行号显示
-nnoremap <F7> :set nonu!<CR>:set foldcolumn=0<CR>
-
-
-nnoremap <leader>\ :vsp
-nnoremap <leader>- :sp
 
 
 " Vim-plug
@@ -608,6 +333,7 @@ let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
 "   [count]<leader>cA       Adds comment delimiters to the end of line and goes
 "                           into insert mode between them.
 Plug 'scrooloose/nerdcommenter'
+nnoremap <silent><F11> :exec("NERDTree ".expand('%:h'))<CR>
 
 
 " Simplify Doxygen documentation in C, C++, Python
@@ -702,20 +428,15 @@ if v:version >= 704 || (v:version == 703 && has("patch584"))
     " KEYS:
     "   <leader>g   Goto definition or declaration
     "   <C-O>/<C-I> Jump back or forward
-    " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-    " "let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-    " let g:ycm_global_ycm_extra_conf='$HOME/.vim/bundle/YouCompleteMe/third_part/ycmd/cpp/ycm/.ycm_extra_conf.py'
-    " let g:ycm_complete_in_comments=1
-    " let g:ycm_collect_identifiers_from_comments_and_strings=1
-    " let g:ycm_collect_identifiers_from_tags_files=1
-    " noremap <leader>gc :YcmCompleter GoToDeclaration<CR>
-    " noremap <leader>gd :YcmCompleter GoToDefinition<CR>
-    " noremap <leader>gr :YcmCompleter GoToReferences<CR>
-    Plug 'ervandew/supertab'
-    let g:SuperTabDefaultCompletionType=""
-    Plug 'Shougo/neocomplcache.vim'
-    let g:neocomplcache_enable_at_startup=1
-    let g:neocomplcache_disable_auto_complete=1
+    if !empty(glob('$HOME/.ycm_vimrc'))
+        source $HOME/.ycm_vimrc
+    else
+        Plug 'ervandew/supertab'
+        let g:SuperTabDefaultCompletionType=""
+        Plug 'Shougo/neocomplcache.vim'
+        let g:neocomplcache_enable_at_startup=1
+        let g:neocomplcache_disable_auto_complete=1
+    endif
 else
     " Perform all your vim insert mode completions with Tab
     Plug 'ervandew/supertab'
@@ -778,119 +499,16 @@ if filereadable(expand("~/.vimrc_local"))
 endif
 
 
-autocmd BufNewFile *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua exec ":call SetTitle()"
-map <leader>p :call SetTitle()<cr>
-"新建.cc,.java,.sh,.cpp,.h, .hpp,
-"""定义函数SetTitle，自动插入文件头
-function! SetTitle()
-    let filetype_name = strpart(expand("%"), stridx(expand("%"), "."))
-    let file_name = strpart(expand("%"), 0, stridx(expand("%"), "."))
-    if file_name =~ "\/"
-        let file_name = strpart(file_name, strridx(file_name, "/") + 1)
-    endif
-    let time_value = strftime("%Y-%m-%d %H:%M:%S")
-    if expand("%:e") == "sh"
-        call setline(1, "\#!/bin/bash")
-        call append(line("."), "")
-        call append(line(".")+1, "\#########################################################################")
-        call append(line(".")+2, "\# Author        : Adam")
-        call append(line(".")+3, "\# Email         : zju_duwangze@163.com")
-        call append(line(".")+4, "\# File Name     : ". file_name . filetype_name)
-        call append(line(".")+5, "\# Created on    : ".time_value)
-        call append(line(".")+6, "\# Last Modified : ".time_value)
-        call append(line(".")+7, "\# Description   :")
-        call append(line(".")+8, "\#########################################################################")
-        call append(line(".")+9, "")
-    else
-        if filetype_name == ".lua"
-            call setline(1, "\--lua")
-            call append(line("."), "")
-            call append(line(".")+1, "\--#########################################################################")
-            call append(line(".")+2, "\# Author        : Adam")
-            call append(line(".")+3, "\# Email         : zju_duwangze@163.com")
-            call append(line(".")+4, "\# File Name     : ". file_name . filetype_name)
-            call append(line(".")+5, "\# Created on    : ".time_value)
-            call append(line(".")+6, "\# Last Modified : ".time_value)
-            call append(line(".")+7, "\# Description   :")
-            call append(line(".")+8, "\--#########################################################################")
-            call append(line(".")+9, file_name . " = {}")
-            call append(line(".")+10, file_name .".__index = ". file_name)
-            call append(line(".")+11, "function ". file_name .":new()")
-            call append(line(".")+12, "    local o = {}")
-            call append(line(".")+13, "    self.__index = self")
-            call append(line(".")+14, "    setmetatable(o, self)")
-            call append(line(".")+15, "    \-- construct function code here")
-            call append(line(".")+16, "    return o")
-            call append(line(".")+17, "end")
-            call append(line(".")+18, "function ". file_name .":hotfix()")
-            call append(line(".")+19, "    setmetatable(self, ". file_name .")")
-            call append(line(".")+20, "end")
-            call append(line(".")+21, "")
-            call append(line(".")+22, "return ". file_name)
-        else
-            if filetype_name == ".py"
-                "call setline(1, "\#!/usr/bin/python")
-                call setline(1, "\# -*- coding: utf-8 -*-")
-                call append(line("."), "")
-                call append(line(".")+1, "\#########################################################################")
-                call append(line(".")+2, "\# Author        : Adam")
-                call append(line(".")+3, "\# Email         : zju_duwangze@163.com")
-                call append(line(".")+4, "\# File Name     : ". file_name . filetype_name)
-                call append(line(".")+5, "\# Created on    : ".time_value)
-                call append(line(".")+6, "\# Last Modified : ".time_value)
-                call append(line(".")+7, "\# Description   :")
-                call append(line(".")+8, "\#########################################################################")
-                call append(line(".")+9, "")
-            else
-                call setline(1, "\/*")
-                call append(line("."), " * File Name       : ". file_name . filetype_name)
-                call append(line(".")+1, " *")
-                call append(line(".")+2, " * Author        : Adam")
-                call append(line(".")+3, " * Email         : zju_duwangze@163.com")
-                call append(line(".")+4, " *")
-                call append(line(".")+5, " * Created on    : ".time_value)
-                call append(line(".")+6, " * Last Modified : ".time_value)
-                call append(line(".")+7, " * Description   : ")
-                call append(line(".")+8, " */")
-                call append(line(".")+9, "")
-                if filetype_name == ".h"
-                    call append(line(".")+10, "#ifndef _". toupper(file_name) . substitute(toupper(filetype_name), ".", "_", "") ."_")
-                    call append(line(".")+11, "#define _". toupper(file_name) . substitute(toupper(filetype_name), ".", "_", "") ."_")
-                    call append(line(".")+12, "")
-                    call append(line(".")+13, "class " . file_name)
-                    call append(line(".")+14, "{")
-                    call append(line(".")+15, "public:")
-                    call append(line(".")+16, "")
-                    call append(line(".")+17, "protected:")
-                    call append(line(".")+18, "")
-                    call append(line(".")+19, "};")
-                    call append(line(".")+20, "")
-                    call append(line(".")+21, "#endif //". toupper(file_name) . substitute(toupper(filetype_name), ".", "_", "") ."_")
-                endif
-            endif
-        endif
-    endif
-endfunc
+if !empty(glob('$HOME/.local_vimrc'))
+    source $HOME/.local_vimrc
+endif
 
+if g:isMAC && !empty(glob('$HOME/.mac_vimrc'))
+    source $HOME/.mac_vimrc
+elseif g:isWIN && !empty(glob('$HOME/.win_vimrc'))
+    source $HOME/.win_vimrc
+else !empty(glob('$HOME/.linux_vimrc'))
+    source $HOME/.linux_vimrc
+endif
 
-" modify the last modified time of a file
-function! SetLastModifiedTime(lineno)
-    let modif_time = strftime("%Y-%m-%d %H:%M:%S")
-    if a:lineno == "-1"
-            let line = getline(8)
-    else
-            let line = getline(a:lineno)
-    endif
-    if line =~ '\sLast Modified'
-            let line = strpart(line, 0, stridx(line, ":")) . ": " . modif_time
-    endif
-    if a:lineno == "-1"
-            call setline(8, line)
-    else
-            call append(a:lineno, line)
-    endif
-endfunc
-
-" map the SetLastModifiedTime command automatically
-autocmd BufWrite *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua call SetLastModifiedTime(-1)
 
