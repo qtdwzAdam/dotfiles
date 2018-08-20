@@ -31,7 +31,7 @@ source $HOME/.normal_vimrc
 
 if has("autocmd")
     augroup EditVim
-        "autocmd BufNewFile *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua exec ":call SetTitle()"
+        autocmd BufNewFile *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua exec ":call SetTitle()"
         if v:version >= 703
             call MakeDir($HOME . '/.vim/undo')
             set undofile        " Keep a persistent undo file
@@ -507,7 +507,7 @@ if g:isMAC && !empty(glob('$HOME/.mac_vimrc'))
     source $HOME/.mac_vimrc
 elseif g:isWIN && !empty(glob('$HOME/.win_vimrc'))
     source $HOME/.win_vimrc
-else !empty(glob('$HOME/.linux_vimrc'))
+elseif !empty(glob('$HOME/.linux_vimrc'))
     source $HOME/.linux_vimrc
 endif
 
