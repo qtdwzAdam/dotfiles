@@ -357,6 +357,12 @@ function! SetTitle()
                 call append(line(".")+7, "\# Description   :")
                 call append(line(".")+8, "\#########################################################################")
                 call append(line(".")+9, "")
+                call append(line(".")+10, "def main():")
+                call append(line(".")+11, "    return 0")
+                call append(line(".")+12, "")
+                call append(line(".")+13, "if __name__ == '__main__':")
+                call append(line(".")+14, "    main()")
+                call append(line(".")+15, "")
             else
                 call setline(1, "\/*")
                 call append(line("."), " * File Name       : ". file_name . filetype_name)
@@ -382,10 +388,30 @@ function! SetTitle()
                     call append(line(".")+19, "};")
                     call append(line(".")+20, "")
                     call append(line(".")+21, "#endif //". toupper(file_name) . substitute(toupper(filetype_name), ".", "_", "") ."_")
+                elseif filetype_name == ".c"
+                    call append(line(".")+10, "#include <stdio.h>")
+                    call append(line(".")+11, "")
+                    call append(line(".")+12, "int main(){")
+                    call append(line(".")+13, "    printf(\"hello!\");")
+                    call append(line(".")+14, "    return 0;")
+                    call append(line(".")+15, "}")
+                elseif filetype_name == ".cpp"
+                    call append(line(".")+10, "#include <iostream>")
+                    call append(line(".")+11, "#include <vector>")
+                    call append(line(".")+12, "using namespace std;")
+                    call append(line(".")+13, "")
+                    call append(line(".")+14, "int main(){")
+                    call append(line(".")+15, "    cout << \"hello\";")
+                    call append(line(".")+16, "    return 0;")
+                    call append(line(".")+17, "}")
+                elseif filetype_name == ".java"
+                    call append(line(".")+10, "public class ". file_name . " {")
+                    call append(line(".")+11, "    public static void main(String[] args) {")
+                    call append(line(".")+12, '        System.out.println("Hello World");')
+                    call append(line(".")+13, "    }")
+                    call append(line(".")+14, "}")
                 endif
             endif
         endif
     endif
 endfunc
-
-
