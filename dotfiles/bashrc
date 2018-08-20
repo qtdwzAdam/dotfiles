@@ -162,13 +162,13 @@ myfind()
 # export HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
-shopt -s histappend
+#shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
-shopt -s checkwinsize
+#shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -227,7 +227,7 @@ shopt -s checkwinsize
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
   eval "`dircolors -b`"
-  alias ls='ls --color=auto'
+  alias ls='ls --color=always'
   #alias dir='dir --color=auto'
   #alias vdir='vdir --color=auto'
 
@@ -260,7 +260,7 @@ export PYTHONSTARTUP=~/.pythonstartup
 # see http://www.shallowsky.com/linux/noaltscreen.html
 #   http://excid3.com/blog/how-to-fix-esc-in-your-terminal
 export LESS='-rX'
-export GREP_OPTIONS='--exclude-dir=.svn --exclude-dir=.git --color=auto -nrI'
+export GREP_OPTIONS='--exclude-dir=.svn --exclude-dir=.git --color=always -nrI'
 
 # alias
 alias -- svndi='svn di $@|view --noplugin -'
