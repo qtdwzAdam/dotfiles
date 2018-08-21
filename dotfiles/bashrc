@@ -163,7 +163,7 @@ myfind()
 
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 #if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -298,15 +298,7 @@ if which tmux 2>&1 >/dev/null; then
 fi
 
 
-export PATH="~/bin:$PATH"
-
-
-# include .bashrc if it exists
-if [ -f $HOME/.local_bashrc  ]; then
-    . $HOME/.local_bashrc
-fi
-
-if [[ $`uname -a` =~ "Mac"  ]] ; then
+if [[ $`uname -o` =~ "GNU/Linux"  ]] ; then
     # append to the history file, don't overwrite it
     shopt -s histappend
     
@@ -331,7 +323,11 @@ if [[ $`uname -a` =~ "Mac"  ]] ; then
       ln -sf $SSH_AUTH_SOCK $SSH_SOCK
       export SSH_AUTH_SOCK=$SSH_SOCK
     fi
+    LS_COLORS='no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:ow=30;42:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:'
+    export LS_COLORS
+    export PS1='\[\e[0;32m\]\u\[\e[0m\]@\[\e[0;34m\]\h\[\e[0m\] | \[\e[0;33m\]\t\[\e[0m\] | \[\e[0;35m\]\w\n\[\e[0;31m\]\$\[\e[0m\] '
 else
+    echo "mac"
     export LS_OPTIONS='--color=auto' # 如果没有指定，则自动选择颜色
     export CLICOLOR='Yes' #是否输出颜色
     export LSCOLORS='CxfxcxdxbxegedabagGxGx' #指定颜色
@@ -346,13 +342,9 @@ else
     export PATH="$PATH:$HOME/.rvm/bin"
 fi
 
-
-if [[ $`uname -a` =~ "Mac"  ]] ; then
-    if [ -f $HOME/.linux_bashrc  ]; then
-        . $HOME/.linux_bashrc
-    fi
-else
-    if [ -f $HOME/.mac_bashrc  ]; then
-        . $HOME/.mac_bashrc
-    fi
+# include .bashrc if it exists
+if [ -f $HOME/.local_bashrc  ]; then
+    . $HOME/.local_bashrc
 fi
+
+export PATH="~/bin:$PATH"

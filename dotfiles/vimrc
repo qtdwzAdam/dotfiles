@@ -494,21 +494,8 @@ endif
 
 " vim: et tw=4 sw=4
 
-if filereadable(expand("~/.vimrc_local"))
-    source ~/.vimrc_local
-endif
-
 
 if !empty(glob('$HOME/.local_vimrc'))
     source $HOME/.local_vimrc
 endif
-
-if g:isMAC && !empty(glob('$HOME/.mac_vimrc'))
-    source $HOME/.mac_vimrc
-elseif g:isWIN && !empty(glob('$HOME/.win_vimrc'))
-    source $HOME/.win_vimrc
-elseif !empty(glob('$HOME/.linux_vimrc'))
-    source $HOME/.linux_vimrc
-endif
-
 
