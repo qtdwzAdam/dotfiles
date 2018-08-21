@@ -298,7 +298,7 @@ if which tmux 2>&1 >/dev/null; then
 fi
 
 
-if [[ $`uname -o` =~ "GNU/Linux"  ]] ; then
+if [[ $`uname -s` =~ "Linux"  ]] ; then
     # append to the history file, don't overwrite it
     shopt -s histappend
     
@@ -327,7 +327,6 @@ if [[ $`uname -o` =~ "GNU/Linux"  ]] ; then
     export LS_COLORS
     export PS1='\[\e[0;32m\]\u\[\e[0m\]@\[\e[0;34m\]\h\[\e[0m\] | \[\e[0;33m\]\t\[\e[0m\] | \[\e[0;35m\]\w\n\[\e[0;31m\]\$\[\e[0m\] '
 else
-    echo "mac"
     export LS_OPTIONS='--color=auto' # 如果没有指定，则自动选择颜色
     export CLICOLOR='Yes' #是否输出颜色
     export LSCOLORS='CxfxcxdxbxegedabagGxGx' #指定颜色
