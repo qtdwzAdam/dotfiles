@@ -15,6 +15,7 @@ alias egrep='egrep --color=auto'
 alias findword='dict -d gcide'
 alias findsame='dict -d moby-thesaurus'
 alias vimvimrc='vim ~/.vimrc'
+alias vimvimnormal='vim ~/.normal_vimrc'
 alias vimbashrc='vim ~/.bashrc'
 alias cd-='cd -'
 alias sourcebashrc='source ~/.bashrc'
@@ -258,24 +259,24 @@ export GREP_OPTIONS='--exclude-dir=.svn --exclude-dir=.git --color=always -nrI'
 alias -- svndi='svn di $@|view --noplugin -'
 
 # see http://superuser.com/questions/249293/rename-tmux-window-name-to-prompt-command-ps1-or-remote-ssh-hostname
-ssh() {
-  if [ -z "`readlink -f $SSH_AUTH_SOCK`"  ]; then
-    # Fix "Permission denied (publickey)." problem.
-    sock="`find /tmp -user $USER -path '/tmp/ssh-*/*' 2>/dev/null|head -1`"
-    if [ ! -z "$sock"  ]; then
-      ln -sf $sock $SSH_SOCK
-    fi
-  fi
-  if [ $# == 1 -a "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
-    # run 'ssh user@host' in tmux, rename window name to 'ssh@ip'
-    tmux rename-window "${1:0:6}@`command ssh \"$@\" printenv SSH_CONNECTION|cut -d\  -f3`"
-    command ssh "$@"
-    tmux set-window-option automatic-rename "on" 1>/dev/null
-  else
-    # run 'ssh xxx' out of tmux or 'ssh user@host xxx' in tmux
-    command ssh "$@"
-  fi
-}
+#ssh() {
+  #if [ -z "`readlink -f $SSH_AUTH_SOCK`"  ]; then
+    ## Fix "Permission denied (publickey)." problem.
+    #sock="`find /tmp -user $USER -path '/tmp/ssh-*/*' 2>/dev/null|head -1`"
+    #if [ ! -z "$sock"  ]; then
+      #ln -sf $sock $SSH_SOCK
+    #fi
+  #fi
+  #if [ $# == 1 -a "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+    ## run 'ssh user@host' in tmux, rename window name to 'ssh@ip'
+    #tmux rename-window "${1:0:6}@`command ssh \"$@\" printenv SSH_CONNECTION|cut -d\  -f3`"
+    #command ssh "$@"
+    #tmux set-window-option automatic-rename "on" 1>/dev/null
+  #else
+    ## run 'ssh xxx' out of tmux or 'ssh user@host xxx' in tmux
+    #command ssh "$@"
+  #fi
+#}
 
 
 # tmux encoding issue, see http://popozhu.github.io/2013/11/06/tmux%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%B7%B2%E6%88%90%E5%BE%80%E4%BA%8B/
