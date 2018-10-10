@@ -101,6 +101,7 @@ nnoremap <leader><cr> :noh<CR>
 nnoremap <leader>l %
 " Force saving files that require root permission
 cnoremap W<CR> w !sudo tee > /dev/null %<CR>
+nnoremap <leader>ee :source ~/.vimrc<cr>
 
 " Switch window
 nnoremap <C-J> <C-W>j

@@ -120,12 +120,45 @@ if !filereadable(plugMgrFile)
     let iCanHazPlugMgr=0
 endif
 
+
+
+
+
+
+
+
+
 call plug#begin('$HOME/.vim/bundle')
+
+call timer_start(1200, 'LoadPlug')
+
+function! LoadPlug(timer) abort
+    call plug#load('vim-easymotion')
+    call plug#load('Rainbow-Parenthesis')
+    call plug#load('bufexplorer')
+    call plug#load('vim-indent-guides')
+    call plug#load('auto-pairs')
+    call plug#load('vim-surround')
+    call plug#load('ctrlp.vim')
+    call plug#load('nerdcommenter')
+    call plug#load('nerdtree')
+    call plug#load('taglist.vim')
+    call plug#load('vim-fugitive')
+    call plug#load('cscopemaps.vim')
+    if v:version >= 704 || (v:version == 703 && has("patch584"))
+        if !empty(glob('$HOME/.ycm_vimrc'))
+            source $HOME/.ycm_vimrc
+        else
+            call plug#load('supertab')
+            call plug#load('neocomplcache.vim')
+        endif
+    endif
+endfunction
 
 " Make sure you use single quotes
 
 " A Git wrapper
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'   , {'on': []}
 nnoremap <leader>gi :Git
 " git add %
 nnoremap <leader>ga :Gwrite<CR>
@@ -141,13 +174,13 @@ nnoremap <leader>gm :Gmove<CR>
 nnoremap <leader>gr :Gremove<CR>
 
 
-Plug 'vim-scripts/Rainbow-Parenthesis'
-Plug 'easymotion/vim-easymotion'
-Plug 'corntrace/bufexplorer'
+Plug 'vim-scripts/Rainbow-Parenthesis'   , {'on': []}
+Plug 'easymotion/vim-easymotion'   , {'on': []}
+Plug 'corntrace/bufexplorer'   , {'on': []}
 map <silent><F8> :BufExplorer<cr>
 
 Plug 'wesleyche/SrcExpl'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'   , {'on': []}
 
 
 " Python syntax check on the fly
@@ -214,7 +247,7 @@ endif
 " KEYS:
 "   <C-\>{s|g|d|c|t|e|f|i} Find symbol|definition|called by|calling this|
 "                          text string|egrep|file|files #including this file
-Plug 'steffanc/cscopemaps.vim'
+Plug 'steffanc/cscopemaps.vim'   ,{'on': []}
 
 
 " Text Objects based on Indentation Level
@@ -270,7 +303,7 @@ nnoremap <leader>bn :bn<CR>
 
 
 " Insert or delete brackets, parens, quotes in pair
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'   , {'on': []}
 " Confict when xptemplate restore <CR> mapping, so disable it
 let g:AutoPairsMapCR=0
 
@@ -291,7 +324,7 @@ Plug 'drmingdrmer/xptemplate'
 "  yS  - add a surrounding and place the surrounded text on a new line + indent it
 "  yss - add a surrounding to the whole line
 "  ySs/ySS  - add a surrounding to the whole line, place it on a new line + indent it
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'   , {'on': []}
 
 
 " Extended % matching for HTML, LaTeX, and many other languages
@@ -320,7 +353,7 @@ Plug 'tmhedberg/matchit'
 " Fuzzy file, buffer, mru, tag, etc finder
 " KEYS:
 "   <C-P>
-Plug 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'   , {'on': []}
 let g:ctrlp_cmd='CtrlPMixed'
 let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
 
@@ -332,7 +365,7 @@ let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
 "   [count]<leader>cu       Uncomments the selected line(s)
 "   [count]<leader>cA       Adds comment delimiters to the end of line and goes
 "                           into insert mode between them.
-Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'   , {'on': []}
 nnoremap <silent><F11> :exec("NERDTree ".expand('%:h'))<CR>
 
 
@@ -344,7 +377,7 @@ nnoremap <silent><F11> :exec("NERDTree ".expand('%:h'))<CR>
 
 
 " A tree explorer plugin for navigating the filesystem
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'   , {'on': []}
 nnoremap <F10> :NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.class$', '\.o$']
 " http://superuser.com/questions/195022/vim-how-to-synchronize-nerdtree-with-current-opened-tab-file-path
@@ -362,7 +395,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "au filetype python,java,c,cpp silent! nested :TagbarOpen
 
 
-Plug 'vim-scripts/taglist.vim'
+Plug 'vim-scripts/taglist.vim'   , {'on': []}
 nnoremap <F9> :TlistToggle<CR>
 let Tlist_Use_Right_Window=1
 
@@ -429,11 +462,11 @@ if v:version >= 704 || (v:version == 703 && has("patch584"))
     "   <leader>g   Goto definition or declaration
     "   <C-O>/<C-I> Jump back or forward
     if !empty(glob('$HOME/.ycm_vimrc'))
-        source $HOME/.ycm_vimrc
+        "source $HOME/.ycm_vimrc
     else
-        Plug 'ervandew/supertab'
+        Plug 'ervandew/supertab'   ,{'on': []}
         let g:SuperTabDefaultCompletionType=""
-        Plug 'Shougo/neocomplcache.vim'
+        Plug 'Shougo/neocomplcache.vim'   ,{'on': []}
         let g:neocomplcache_enable_at_startup=1
         let g:neocomplcache_disable_auto_complete=1
     endif
@@ -442,16 +475,13 @@ else
     Plug 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType=""
 
-
     " Ultimate auto-completion system
     Plug 'Shougo/neocomplcache.vim'
     let g:neocomplcache_enable_at_startup=1
     let g:neocomplcache_disable_auto_complete=1
 
-
     " Show function prototype in command line when type '('
     "Plug 'echofunc.vim'
-
 
     " Smart Space key for Vim
     " KEYS:
