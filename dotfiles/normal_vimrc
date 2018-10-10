@@ -248,12 +248,15 @@ func! Compile()
         exec "!g++ -g -Wall -std=c++11 % -o output/%<.exe"
         "exec "!g++ % -g -o %<.exe"
     elseif &filetype == "java"
+        if !isdirectory(expand("output"))
+            call mkdir(expand("output"), 'p')
+        endif
         if exists(":Vjdec")
             exec ":Vjdec"
         elseif exists(":Javac")
-            exec ":Javac %"
+            exec ":Javac -d output %"
         else
-            exec "!javac %"
+            exec "!javac -d output %"
         endif
     elseif &filetype == "python"
         exec "!pycompile %<.py"
@@ -277,19 +280,27 @@ func! Run()
         exec "!g++ -g -Wall -std=c++11 % -o output/%<.exe"
         exec "!./output/%<.exe"
     elseif &filetype == "java"
+        " make dir
+        if !isdirectory(expand("output"))
+            call mkdir(expand("output"), 'p')
+        endif
+
+        " compile
         if exists(":Vjdec")
             exec ":Vjdec"
         elseif exists(":Javac")
-            exec ":Javac %"
+            exec ":Javac -d output %"
         else
-            exec "!javac %"
+            exec "!javac -d output %"
         endif
+
+        " run
         if exists(":Vjder")
-            exec ":Vjder %<"
+            exec ":Vjder output/%<"
         elseif exists(":Java")
-            exec ":Java %<"
+            exec ":Java -classpath output %<"
         else
-            exec "!java %<"
+            exec "!java -classpath output %<"
         endif
     elseif &filetype == "python"
         exec "!python %<.py"
