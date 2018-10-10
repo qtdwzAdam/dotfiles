@@ -122,15 +122,9 @@ endif
 
 
 
-
-
-
-
-
-
 call plug#begin('$HOME/.vim/bundle')
 
-call timer_start(1200, 'LoadPlug')
+call timer_start(700, 'LoadPlug')
 
 function! LoadPlug(timer) abort
     call plug#load('vim-easymotion')
@@ -145,6 +139,11 @@ function! LoadPlug(timer) abort
     call plug#load('taglist.vim')
     call plug#load('vim-fugitive')
     call plug#load('cscopemaps.vim')
+    if has("python")
+        call plug#load('jedi-vim')
+        call plug#load('pyflakes-vim')
+    endif
+
     if v:version >= 704 || (v:version == 703 && has("patch584"))
         if !empty(glob('$HOME/.ycm_vimrc'))
             source $HOME/.ycm_vimrc
@@ -185,7 +184,7 @@ Plug 'nathanaelkane/vim-indent-guides'   , {'on': []}
 
 " Python syntax check on the fly
 if has("python")
-    Plug 'kevinw/pyflakes-vim'
+    Plug 'kevinw/pyflakes-vim'   , {'on': []}
 endif
 
 
@@ -420,7 +419,7 @@ silent! colorscheme molokai
 "   <C-n>     Completion
 "   K         Show Documentation/Pydoc (shows a popup with assignments)
 if has("python")
-    Plug 'davidhalter/jedi-vim'
+    Plug 'davidhalter/jedi-vim'   , {'on': []}
     let g:jedi#completions_command = "<C-n>"
     let g:jedi#completions_enabled = 1
     let g:jedi#show_call_signatures = "1"
