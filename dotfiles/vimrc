@@ -491,7 +491,9 @@ if v:version >= 800
         call plug#load('vim-easymotion')
         call plug#load('xptemplate')
         call plug#load('nerdtree')
-        call plug#load('jedi-vim')
+        if has("python")
+            call plug#load('jedi-vim')
+        endif
 
         if !empty(glob('$HOME/.ycm_vimrc'))
             source $HOME/.ycm_vimrc
@@ -501,7 +503,9 @@ else
     call plug#load('vim-easymotion')
     call plug#load('xptemplate')
     call plug#load('nerdtree')
-    call plug#load('jedi-vim')
+    if has("python")
+        call plug#load('jedi-vim')
+    endif
 
     if !empty(glob('$HOME/.ycm_vimrc'))
         source $HOME/.ycm_vimrc
