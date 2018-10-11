@@ -485,6 +485,9 @@ endif
 " Add plugins to &runtimepath
 
 " 查找文件用
+" linux: apt-get install ack-grep
+" mac: brew install ack
+" see: https://beyondgrep.com/install  for other system to install
 Plug 'dyng/ctrlsf.vim'
 nnoremap <C-l> : CtrlSF<Space>
 let g:ctrlsf_default_view_mode = 'compact'
