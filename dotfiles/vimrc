@@ -484,6 +484,12 @@ endif
 
 " Add plugins to &runtimepath
 
+" 查找文件用
+Plug 'dyng/ctrlsf.vim'
+nnoremap <C-l> : CtrlSF<Space>
+let g:ctrlsf_default_view_mode = 'compact'
+"let g:ctrlsf_default_view_mode = 'normal'
+
 if v:version >= 800
     call timer_start(700, 'LoadPlug')
 
