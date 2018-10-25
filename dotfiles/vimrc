@@ -521,6 +521,9 @@ else
     endif
 endif
 
+" install ag first then ag.vim
+" apt-get install silversearcher-ag
+" brew install the_silver_searcher
 Plug 'rking/ag.vim'
 let g:ackprg = 'ag --vimgrep'
 let g:ag_working_path_mode="r"
