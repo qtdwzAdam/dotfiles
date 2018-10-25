@@ -521,6 +521,12 @@ else
     endif
 endif
 
+Plug 'Yggdroot/LeaderF'
+nnoremap <leader>p :LeaderfFile<CR>
+nnoremap <leader>l :LeaderfLine<CR>
+nnoremap <leader>k :LeaderfFunction<CR>
+nnoremap <leader>b :LeaderfBuffer<CR>
+
 " install ag first then ag.vim
 " apt-get install silversearcher-ag
 " brew install the_silver_searcher
