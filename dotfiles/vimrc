@@ -297,7 +297,7 @@ Plug 'tpope/vim-surround'
 
 
 " Extended % matching for HTML, LaTeX, and many other languages
-Plug 'tmhedberg/matchit'
+" Plug 'tmhedberg/matchit'
 
 
 " Fast and Easy Find and Replace Across Multiple Files
@@ -520,6 +520,19 @@ else
         source $HOME/.ycm_vimrc
     endif
 endif
+
+Plug 'rking/ag.vim'
+let g:ackprg = 'ag --vimgrep'
+let g:ag_working_path_mode="r"
+set runtimepath^=~/.vim/bundle/ag
+nnoremap <leader>f :Ag! ""<left>
+
+Plug 'Chun-Yang/vim-action-ag'
+" use * to search current word in normal mode
+nmap * <Plug>AgActionWord
+" use * to search selected text in visual mode
+vmap * <Plug>AgActionVisual
+let g:vim_action_ag_escape_chars = '#%.^$*+?()[{\\|'
 
 
 call plug#end()

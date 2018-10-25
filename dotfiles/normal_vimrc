@@ -230,6 +230,15 @@ cnoremap <C-E> <End>
 nnoremap <DOWN> gj<C-E>
 nnoremap <UP> gk<C-Y>
 
+func! Get_package_name()
+    let g:javaPackage = ""
+    for x in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+        let _line = getline(x)
+        if _line =~ 'package '
+            let g:javaPackage = strpart(_line, stridx(_line, " ")+1, stridx(_line, ";")-stridx(_line, " ")-1)
+        endif
+    endfor
+endfunc
 
 
 " Run
@@ -254,9 +263,9 @@ func! Compile()
         if exists(":Vjdec")
             exec ":Vjdec"
         elseif exists(":Javac")
-            exec ":Javac -d output %"
+            exec ":Javac -Xlint:unchecked -classpath output -d output %"
         else
-            exec "!javac -d output %"
+            exec "!javac -Xlint:unchecked -classpath output -d output %"
         endif
     elseif &filetype == "python"
         exec "!pycompile %<.py"
@@ -289,18 +298,29 @@ func! Run()
         if exists(":Vjdec")
             exec ":Vjdec"
         elseif exists(":Javac")
-            exec ":Javac -d output %"
+            exec ":Javac -Xlint:unchecked -cp output -d output %"
         else
-            exec "!javac -d output %"
+            exec "!javac -Xlint:unchecked -cp output -d output %"
         endif
 
         " run
         if exists(":Vjder")
-            exec ":Vjder output/%<"
+            exec ":Vjder -cp output %<"
         elseif exists(":Java")
-            exec ":Java -classpath output %<"
+            call Get_package_name()
+            if g:javaPackage == ""
+                exec ":Java -cp output  %<"
+            else
+                exec ":Java -cp output " g:javaPackage . ".%<"
+            endif
+            "exec ":Java -classpath output %<"
         else
-            exec "!java -classpath output %<"
+            call Get_package_name()
+            if g:javaPackage == ""
+                exec "!java -cp output  %<"
+            else
+                exec "!java -cp output  " g:javaPackage . ".%<"
+            endif
         endif
     elseif &filetype == "python"
         exec "!python %<.py"
@@ -454,9 +474,8 @@ function! SetTitle()
                 elseif filetype_name == ".java"
                     call append(line(".")+10, "public class ". file_name . " {")
                     call append(line(".")+11, "    public static void main(String[] args) {")
-                    call append(line(".")+12, '        System.out.println("Hello World");')
-                    call append(line(".")+13, "    }")
-                    call append(line(".")+14, "}")
+                    call append(line(".")+12, "    }")
+                    call append(line(".")+13, "}")
                 endif
             endif
         endif
