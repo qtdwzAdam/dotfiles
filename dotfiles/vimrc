@@ -319,12 +319,20 @@ Plug 'tpope/vim-surround'
 "let g:EasyGrepMode=2  " 0 - All files, 1 - Bufrers, 2 - Track extension
 
 
-" Fuzzy file, buffer, mru, tag, etc finder
-" KEYS:
-"   <C-P>
-" Plug 'kien/ctrlp.vim'
-" let g:ctrlp_cmd='CtrlPMixed'
-" let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+if !has('python')
+    " Fuzzy file, buffer, mru, tag, etc finder
+    " KEYS:
+    "   <C-P>
+    Plug 'kien/ctrlp.vim'
+    let g:ctrlp_cmd='CtrlPMixed'
+    let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+else
+    Plug 'Yggdroot/LeaderF'
+    nnoremap <C-P> :LeaderfFile<CR>
+    nnoremap <leader>l :LeaderfLine<CR>
+    nnoremap <leader>k :LeaderfFunction<CR>
+    nnoremap <leader>b :LeaderfBuffer<CR>
+endif
 
 
 " Easy commenting of code for many filetypes
@@ -520,12 +528,6 @@ else
         source $HOME/.ycm_vimrc
     endif
 endif
-
-Plug 'Yggdroot/LeaderF'
-nnoremap <C-P> :LeaderfFile<CR>
-nnoremap <leader>l :LeaderfLine<CR>
-nnoremap <leader>k :LeaderfFunction<CR>
-nnoremap <leader>b :LeaderfBuffer<CR>
 
 " install ag first then ag.vim
 " apt-get install silversearcher-ag
