@@ -322,9 +322,9 @@ Plug 'tpope/vim-surround'
 " Fuzzy file, buffer, mru, tag, etc finder
 " KEYS:
 "   <C-P>
-Plug 'kien/ctrlp.vim'
-let g:ctrlp_cmd='CtrlPMixed'
-let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+" Plug 'kien/ctrlp.vim'
+" let g:ctrlp_cmd='CtrlPMixed'
+" let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
 
 
 " Easy commenting of code for many filetypes
@@ -522,7 +522,7 @@ else
 endif
 
 Plug 'Yggdroot/LeaderF'
-nnoremap <leader>p :LeaderfFile<CR>
+nnoremap <C-P> :LeaderfFile<CR>
 nnoremap <leader>l :LeaderfLine<CR>
 nnoremap <leader>k :LeaderfFunction<CR>
 nnoremap <leader>b :LeaderfBuffer<CR>
@@ -534,7 +534,7 @@ Plug 'rking/ag.vim'
 let g:ackprg = 'ag --vimgrep'
 let g:ag_working_path_mode="r"
 set runtimepath^=~/.vim/bundle/ag
-nnoremap <leader>f :Ag! ""<left>
+nnoremap <C-F> :Ag! ""<left>
 
 Plug 'Chun-Yang/vim-action-ag'
 " use * to search current word in normal mode
