@@ -87,6 +87,8 @@ nnoremap ; :
 " Quickly Esc, save file, close file and reload vimrc
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
+nnoremap <leader>W :w<CR>
+nnoremap <leader>Q :q<CR>
 " nnoremap <leader>r :so $MYVIMRC<CR>
 " Pull word under cursor into LHS of a substitute (for search and replace)
 nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
@@ -98,7 +100,7 @@ nnoremap <leader><cr> :noh<CR>
 " Jump to matching pairs easily, with Tab
 "nnoremap <Tab> %
 "vnoremap <Tab> %
-nnoremap <leader>l %
+"nnoremap <leader>l %
 " Force saving files that require root permission
 cnoremap W<CR> w !sudo tee > /dev/null %<CR>
 nnoremap <leader>ee :source ~/.vimrc<cr>
@@ -240,7 +242,6 @@ func! Get_package_name()
     endfor
 endfunc
 
-
 " Run
 set makeprg=g++\ -Wall\ -o\ %<.exe\ %
 func! Compile()
@@ -275,39 +276,18 @@ func! Compile()
 endfunc
 
 func! Run()
+    " auto compile first
+    call Compile()
     if &filetype == "c"
-        if !isdirectory(expand("output"))
-            call mkdir(expand("output"), 'p')
-        endif
-        exec "!gcc % -g -o output/%<.exe"
         exec "!./output/%<.exe"
     elseif &filetype == "cpp"
-        if !isdirectory(expand("output"))
-            call mkdir(expand("output"), 'p')
-        endif
-        "exec "!g++ % -g -o output/%<.exe"
-        exec "!g++ -g -Wall -std=c++11 % -o output/%<.exe"
         exec "!./output/%<.exe"
     elseif &filetype == "java"
-        " make dir
-        if !isdirectory(expand("output"))
-            call mkdir(expand("output"), 'p')
-        endif
-
-        " compile
-        if exists(":Vjdec")
-            exec ":Vjdec"
-        elseif exists(":Javac")
-            exec ":Javac -Xlint:unchecked -cp output -d output %"
-        else
-            exec "!javac -Xlint:unchecked -cp output -d output %"
-        endif
-
         " run
+        call Get_package_name()
         if exists(":Vjder")
             exec ":Vjder -cp output %<"
         elseif exists(":Java")
-            call Get_package_name()
             if g:javaPackage == ""
                 exec ":Java -cp output  %<"
             else
@@ -315,7 +295,6 @@ func! Run()
             endif
             "exec ":Java -classpath output %<"
         else
-            call Get_package_name()
             if g:javaPackage == ""
                 exec "!java -cp output  %<"
             else
@@ -335,14 +314,8 @@ map <F12> :w!<cr>:call Run()<CR>
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
-
 " <F7> 切换行号显示
 nnoremap <F7> :set nonu!<CR>:set foldcolumn=0<CR>
-
-
-nnoremap <leader>\ :vsp
-nnoremap <leader>- :sp
-
 
 " modify the last modified time of a file
 function! SetLastModifiedTime(lineno)

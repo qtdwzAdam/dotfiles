@@ -330,7 +330,6 @@ else
     Plug 'Yggdroot/LeaderF'
     nnoremap <C-P> :LeaderfFile<CR>
     nnoremap <leader>l :LeaderfLine<CR>
-    nnoremap <leader>k :LeaderfFunction<CR>
     nnoremap <leader>b :LeaderfBuffer<CR>
 endif
 
@@ -399,7 +398,7 @@ silent! colorscheme molokai
 if has("python")
     Plug 'davidhalter/jedi-vim'   , {'on': []}
     let g:jedi#completions_command = "<C-n>"
-    let g:jedi#completions_enabled = 1
+    let g:jedi#completions_enabled = 0
     let g:jedi#show_call_signatures = "1"
     " Disable docstring window to popup during completion
     autocmd FileType python setlocal completeopt-=preview
@@ -439,7 +438,7 @@ if v:version >= 704 || (v:version == 703 && has("patch584"))
     "   <leader>g   Goto definition or declaration
     "   <C-O>/<C-I> Jump back or forward
     if !empty(glob('$HOME/.ycm_vimrc'))
-        "source $HOME/.ycm_vimrc
+        " source $HOME/.ycm_vimrc
     else
         Plug 'ervandew/supertab'
         let g:SuperTabDefaultCompletionType=""
@@ -536,15 +535,26 @@ Plug 'rking/ag.vim'
 let g:ackprg = 'ag --vimgrep'
 let g:ag_working_path_mode="r"
 set runtimepath^=~/.vim/bundle/ag
-nnoremap <C-F> :Ag! ""<left>
+nnoremap <leader><C-F> :Ag! "" *.py<left>
 
 Plug 'Chun-Yang/vim-action-ag'
 " use * to search current word in normal mode
-nmap * <Plug>AgActionWord
+nmap <leader>* <Plug>AgActionWord
 " use * to search selected text in visual mode
-vmap * <Plug>AgActionVisual
+vmap <leader>* <Plug>AgActionVisual
 let g:vim_action_ag_escape_chars = '#%.^$*+?()[{\\|'
 
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+nnoremap <silent> <Leader><C-F> :Ag<CR>
+nnoremap <silent> <Leader><C-F> :Lines <C-r>=expand("<cword>")<CR> <CR>
+nnoremap <C-P> :GFiles<CR>
 
 call plug#end()
 
@@ -555,7 +565,6 @@ if iCanHazPlugMgr == 0
 endif
 
 " vim: et tw=4 sw=4
-
 
 if !empty(glob('$HOME/.local_vimrc'))
     source $HOME/.local_vimrc
