@@ -544,7 +544,11 @@ nmap <leader>* <Plug>AgActionWord
 vmap <leader>* <Plug>AgActionVisual
 let g:vim_action_ag_escape_chars = '#%.^$*+?()[{\\|'
 
-Plug '/usr/local/opt/fzf'
+if g:isMAC == 1
+    Plug '/usr/local/opt/fzf'
+else
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+endif
 Plug 'junegunn/fzf.vim'
 
 command! -bang -nargs=* Ag

@@ -348,3 +348,5 @@ if [ -f $HOME/.local_bashrc  ]; then
 fi
 
 export PATH="~/bin:$PATH"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
