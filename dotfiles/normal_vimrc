@@ -264,9 +264,9 @@ func! Compile()
         if exists(":Vjdec")
             exec ":Vjdec"
         elseif exists(":Javac")
-            exec ":Javac -Xlint:unchecked -classpath output -d output %"
+            exec ":Javac -Xlint:all -classpath output -d output %"
         else
-            exec "!javac -Xlint:unchecked -classpath output -d output %"
+            exec "!javac -Xlint:all -classpath output -d output %"
         endif
     elseif &filetype == "python"
         exec "!pycompile %<.py"
@@ -445,10 +445,10 @@ function! SetTitle()
                     call append(line(".")+16, "    return 0;")
                     call append(line(".")+17, "}")
                 elseif filetype_name == ".java"
-                    call append(line(".")+10, "public class ". file_name . " {")
-                    call append(line(".")+11, "    public static void main(String[] args) {")
-                    call append(line(".")+12, "    }")
-                    call append(line(".")+13, "}")
+                    "call append(line(".")+10, "public class ". file_name . " {")
+                    "call append(line(".")+11, "    public static void main(String[] args) {")
+                    "call append(line(".")+12, "    }")
+                    "call append(line(".")+13, "}")
                 endif
             endif
         endif
