@@ -277,12 +277,14 @@ endfunc
 
 func! Run()
     " auto compile first
-    call Compile()
     if &filetype == "c"
+        call Compile()
         exec "!./output/%<.exe"
     elseif &filetype == "cpp"
+        call Compile()
         exec "!./output/%<.exe"
     elseif &filetype == "java"
+        call Compile()
         " run
         call Get_package_name()
         if exists(":Vjder")
@@ -305,6 +307,8 @@ func! Run()
         exec "!python %<.py"
     elseif &filetype == "sh"
         exec "!bash %"
+    elseif &filetype == "rb"
+        exec "!ruby %<.rb"
     endif
 endfunc
 map <F5> :w!<cr>:call Compile()<CR>
@@ -357,6 +361,9 @@ function! SetTitle()
         call append(line(".")+7, "\# Description   :")
         call append(line(".")+8, "\#########################################################################")
         call append(line(".")+9, "")
+    elseif filetype_name == ".rb"
+        call setline(1, "# -*- coding: UTF-8 -*-")
+        call append(line("."), "#!/usr/bin/ruby -w")
     else
         if filetype_name == ".lua"
             call setline(1, "\--lua")
@@ -454,3 +461,4 @@ function! SetTitle()
         endif
     endif
 endfunc
+
