@@ -54,7 +54,7 @@ if has("autocmd")
                     \ endif
 
         " map the SetLastModifiedTime command automatically
-        autocmd BufWrite *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua call SetLastModifiedTime(-1)
+        " autocmd BufWrite *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua call SetLastModifiedTime(-1)
 
         autocmd Syntax diff
                     \ highlight WhiteSpaceEOL ctermbg=red |
