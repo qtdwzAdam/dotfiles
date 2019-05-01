@@ -72,7 +72,7 @@ if has("autocmd")
     augroup END
 endif " has("autocmd")
 
-language messages zh_CN.utf-8
+"language messages zh_CN.utf-8
 
 if (g:isWIN && has("gui_running"))
     source $VIMRUNTIME/delmenu.vim
