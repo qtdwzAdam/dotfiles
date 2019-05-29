@@ -78,7 +78,7 @@ filetype plugin on
 
 " Custom key mappings
 let mapleader=","
-nnoremap ; :
+"nnoremap ; :
 "cnoremap jj <C-U><Esc>
 " Quickly get out of insert mode without your fingers having to leave the
 " home row, equals to <ESC>,<C-C>,<C-[>
