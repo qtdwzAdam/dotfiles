@@ -32,35 +32,35 @@ source $HOME/.normal_vimrc
 if has("autocmd")
     augroup EditVim
         autocmd BufNewFile *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua exec ":call SetTitle()"
-        if v:version >= 703
-            call MakeDir($HOME . '/.vim/undo')
-            set undofile        " Keep a persistent undo file
-            set undodir=$HOME/.vim/undo,/tmp
-            au BufWritePre $HOME/.vim/undo/* setlocal noundofile
-            au BufWritePre /tmp/* setlocal noundofile
-        endif
+        "if v:version >= 703
+            "call MakeDir($HOME . '/.vim/undo')
+            "set undofile        " Keep a persistent undo file
+            "set undodir=$HOME/.vim/undo,/tmp
+            "au BufWritePre $HOME/.vim/undo/* setlocal noundofile
+            "au BufWritePre /tmp/* setlocal noundofile
+        "endif
 
         "Set UTF-8 as the default encoding for commit messages
         autocmd BufReadPre COMMIT_EDITMSG,git-rebase-todo setlocal fileencodings=utf-8
 
         "Remember the positions in files with some git-specific exceptions"
-        autocmd BufReadPost *
-                    \ if line("'\"") > 0 && line("'\"") <= line("$")
-                    \           && expand("%") !~ "COMMIT_EDITMSG"
-                    \           && expand("%") !~ "ADD_EDIT.patch"
-                    \           && expand("%") !~ "addp-hunk-edit.diff"
-                    \           && expand("%") !~ "git-rebase-todo" |
-                    \   exe "normal g`\"" |
-                    \ endif
+        "autocmd BufReadPost *
+                    "\ if line("'\"") > 0 && line("'\"") <= line("$")
+                    "\           && expand("%") !~ "COMMIT_EDITMSG"
+                    "\           && expand("%") !~ "ADD_EDIT.patch"
+                    "\           && expand("%") !~ "addp-hunk-edit.diff"
+                    "\           && expand("%") !~ "git-rebase-todo" |
+                    "\   exe "normal g`\"" |
+                    "\ endif
 
         " map the SetLastModifiedTime command automatically
         " autocmd BufWrite *.cc,*.sh,*.java,*.cpp,*.h,*.hpp,*.py,*.lua call SetLastModifiedTime(-1)
 
-        autocmd Syntax diff
-                    \ highlight WhiteSpaceEOL ctermbg=red |
-                    \ match WhiteSpaceEOL /\(^+.*\)\@<=\s\+$/
+        "autocmd Syntax diff
+                    "\ highlight WhiteSpaceEOL ctermbg=red |
+                    "\ match WhiteSpaceEOL /\(^+.*\)\@<=\s\+$/
 
-        autocmd Syntax gitcommit setlocal textwidth=74
+        "autocmd Syntax gitcommit setlocal textwidth=74
 
         " Hilight text over length (set colorcolumn=80)
         au BufEnter *.py,*.c,*.cpp,*.h,*.java silent! setlocal colorcolumn=80
@@ -72,7 +72,7 @@ if has("autocmd")
     augroup END
 endif " has("autocmd")
 
-language messages zh_CN.utf-8
+"language messages zh_CN.utf-8
 
 if (g:isWIN && has("gui_running"))
     source $VIMRUNTIME/delmenu.vim
@@ -544,7 +544,11 @@ nmap <leader>* <Plug>AgActionWord
 vmap <leader>* <Plug>AgActionVisual
 let g:vim_action_ag_escape_chars = '#%.^$*+?()[{\\|'
 
-Plug '/usr/local/opt/fzf'
+if g:isMAC == 1
+    Plug '/usr/local/opt/fzf'
+else
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+endif
 Plug 'junegunn/fzf.vim'
 
 command! -bang -nargs=* Ag

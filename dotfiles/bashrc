@@ -39,6 +39,10 @@ alias myzip='dwzzip'
 alias myarchive='dwzarchive'
 alias vimupdata='rm tags && ctags -R && rm cscope* && cscope -Rbq'
 
+# added at 2019/01/17
+alias cat='bat'
+alias du='ncdu --color dark -rr -x --exclude .git --exclude node_modules'
+
 #********************************************************
 #    start of mine
 #********************************************************
@@ -348,3 +352,6 @@ if [ -f $HOME/.local_bashrc  ]; then
 fi
 
 export PATH="~/bin:$PATH"
+export BAT_THEME="TwoDark"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
