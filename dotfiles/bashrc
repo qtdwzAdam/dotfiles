@@ -21,8 +21,6 @@ alias cd-='cd -'
 alias sourcebashrc='source ~/.bashrc'
 alias runmanager='python manage.py runserver 0.0.0.0:8000'
 
-alias grepword='myfind'
-
 # alias vim="mvim"
 # alias python="/Users/adam/anaconda/bin/python"
 alias pyuic4='python /Users/adam/anaconda/lib/python2.7/site-packages/PyQt4/uic/pyuic.py'
@@ -33,15 +31,17 @@ alias gs='git status'
 alias gc='git commit -m'
 alias gcm='git commit --amend'
 alias gd='git diff'
-alias mcd='dwzmcd'
 alias aliasgrep='alias |grep '
 alias myzip='dwzzip'
 alias myarchive='dwzarchive'
-alias vimupdata='rm tags && ctags -R && rm cscope* && cscope -Rbq'
 
 # added at 2019/01/17
-alias cat='bat'
-alias du='ncdu --color dark -rr -x --exclude .git --exclude node_modules'
+if command -v bat >/dev/null 2>&1; then
+    alias cat='bat'
+fi
+if command -v ncdu >/dev/null 2>&1; then
+    alias du='ncdu --color dark -rr -x --exclude .git --exclude node_modules'
+fi
 
 #********************************************************
 #    start of mine
@@ -51,19 +51,7 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 alias cd..='cd ..'
 alias q='exit'
 
-# a quick way to get out of current directory
-alias ..='cd ..'
-alias ...='cd ../../'
-alias ....='cd ../../../'
-alias .4='cd ../../../../'
-alias .5='cd ../../../../../'
-alias .6='cd ../../../../../../'
-alias .7='cd ../../../../../../../'
-alias .8='cd ../../../../../../../../'
-
 alias lt='ls -alth | head -n 30'
-alias lw='ll --color $1 | tail -n 15 |sort -r -k 5'
-alias lhd='ls -Gal | grep ^d' #Only list directories, including hidden ones
 alias l.='ls -d .* --color=auto'
 alias ds='du -ks *|sort -n'
 alias rm='trash'
@@ -72,8 +60,6 @@ alias hex2dec='printf "%d\n" 0x$1'
 alias dec2hex='printf "%x\n" $1'
 alias sl=ls
 alias q='exit'
-alias cpgit='cp ~/gitignore ./.gitignore'
-alias uni2ch='python c:/Python27/Scripts/unicode2chinese.py '
 function undozip(){
   unzip -l "$1" |  awk 'BEGIN { OFS="" ; ORS="" } ; { for ( i=4; i<NF; i++ ) print $i " "; print $NF "\n" }' | xargs -I{} rm -r {}
 }
@@ -89,26 +75,6 @@ trash()
     mv $@ ~/.Trash/$systime
     #mv $@ ~/.Trash
   }
-fg()
-{
-  find . -name "*${2}" -print | xargs grep -nir "${1}"
-}
-alias sulast='sudo $(history -p !-1)'
-cdl ()
-{
-  cd $1
-  ls
-}
-b() {
-  str=""
-  count=0
-  while [ "$count" -lt "$1" ];
-  do
-    str=$str"../"
-    let count=count+1
-  done
-  cd $str
-}
 extract () {
   if [ -f $1 ] ; then
     case $1 in
@@ -142,15 +108,6 @@ dwzzip() {
   sourcebashrc
   systime_M_D_H_M=`date +%m_%d-%H_%M`
   zip -r $systime_M_D_H_M-${tmp}.zip $1
-}
-
-dwzmcd() {
-  mkdir -p "$1" && cd "$1"
-}
-
-myfind()
-{
-  grep -rni $@ *
 }
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
@@ -237,6 +194,7 @@ fi
 #alias ll='ls -l'
 #alias la='ls -A'
 #alias l='ls -CF'
+alias cat='bat'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -312,10 +270,6 @@ if [[ $`uname -s` =~ "Linux"  ]] ; then
     # check the window size after each command and, if necessary,
     # update the values of LINES and COLUMNS.
     shopt -s checkwinsize
-    # append to the history file, don't overwrite it
-    shopt -s histappend
-    
-    # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
     
     # check the window size after each command and, if necessary,
     # update the values of LINES and COLUMNS.
@@ -332,6 +286,7 @@ if [[ $`uname -s` =~ "Linux"  ]] ; then
     export LS_COLORS
     export PS1='\[\e[0;32m\]\u\[\e[0m\]@\[\e[0;34m\]\h\[\e[0m\] | \[\e[0;33m\]\t\[\e[0m\] | \[\e[0;35m\]\w\n\[\e[0;31m\]\$\[\e[0m\] '
 else
+    # mac
     export LS_OPTIONS='--color=auto' # 如果没有指定，则自动选择颜色
     export CLICOLOR='Yes' #是否输出颜色
     export LSCOLORS='CxfxcxdxbxegedabagGxGx' #指定颜色
