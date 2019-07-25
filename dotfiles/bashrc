@@ -306,7 +306,7 @@ if [ -f $HOME/.local_bashrc  ]; then
     . $HOME/.local_bashrc
 fi
 
-export PATH="~/bin:$PATH"
+export PATH="~/bin:~/dotfiles:$PATH"
 export BAT_THEME="TwoDark"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
