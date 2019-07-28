@@ -153,9 +153,9 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 
 " Python syntax check on the fly
-if has("python")
-    Plug 'kevinw/pyflakes-vim'
-endif
+"if has("python")
+    "Plug 'kevinw/pyflakes-vim'
+"endif
 
 
 " Automatically detect indent (expandtab, shiftwidth, tabstop) settings

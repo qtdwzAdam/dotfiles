@@ -32,6 +32,7 @@ install:
 			ln -sf `pwd`/$$f ~/.$$f; \
 		fi; \
 	done
+	@chmod 777 ctags
 
 uninstall:
 	@cd dotfiles; \
