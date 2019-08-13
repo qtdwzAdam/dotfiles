@@ -80,6 +80,7 @@ extract () {
     case $1 in
     *.tar.bz2)   tar xjf $1   ;;
     *.tar.gz)  tar xzf $1   ;;
+    *.tar.xz)  xz -d $1   ;;
     *.bz2)     bunzip2 $1   ;;
     *.rar)     unrar e $1   ;;
     *.gz)    gunzip $1    ;;
@@ -241,7 +242,7 @@ alias -- svndi='svn di $@|view --noplugin -'
 
 
 # tmux encoding issue, see http://popozhu.github.io/2013/11/06/tmux%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%B7%B2%E6%88%90%E5%BE%80%E4%BA%8B/
-export LC_ALL="zh_CN.UTF-8"
+#export LC_ALL="zh_CN.UTF-8"
 
 # auto open tmux
 if which tmux 2>&1 >/dev/null; then
@@ -308,4 +309,4 @@ fi
 export PATH="~/bin:~/dotfiles:$PATH"
 export BAT_THEME="TwoDark"
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
