@@ -310,3 +310,5 @@ export PATH="~/bin:~/dotfiles:$PATH"
 export BAT_THEME="TwoDark"
 
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+set -o vi
+export EDITOR=VIM
