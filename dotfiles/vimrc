@@ -218,19 +218,23 @@ Plug 'tpope/vim-surround'
 "let g:EasyGrepMode=2  " 0 - All files, 1 - Bufrers, 2 - Track extension
 
 
-if !has('python')
-    " Fuzzy file, buffer, mru, tag, etc finder
-    " KEYS:
-    "   <C-P>
-    Plug 'kien/ctrlp.vim'
-    let g:ctrlp_cmd='CtrlPMixed'
-    let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
-else
-    Plug 'Yggdroot/LeaderF'
-    nnoremap <C-P> :LeaderfFile<CR>
-    nnoremap <leader>l :LeaderfLine<CR>
-    nnoremap <leader>b :LeaderfBuffer<CR>
-endif
+"if !has('python')
+    "" Fuzzy file, buffer, mru, tag, etc finder
+    "" KEYS:
+    ""   <C-P>
+    "Plug 'kien/ctrlp.vim'
+    "let g:ctrlp_cmd='CtrlPMixed'
+    "let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+"else
+    "Plug 'Yggdroot/LeaderF'
+    "nnoremap <C-P> :LeaderfFile<CR>
+    "nnoremap <leader>l :LeaderfLine<CR>
+    "nnoremap <leader>b :LeaderfBuffer<CR>
+"endif
+Plug 'Yggdroot/LeaderF'
+nnoremap <C-P> :LeaderfFile<CR>
+nnoremap <leader>l :LeaderfLine<CR>
+nnoremap <leader>b :LeaderfBuffer<CR>
 
 
 " Easy commenting of code for many filetypes
@@ -378,7 +382,7 @@ Plug 'regedarek/ZoomWin'
 " mac: brew install ack
 " see: https://beyondgrep.com/install  for other system to install
 Plug 'dyng/ctrlsf.vim'
-nnoremap <leader>f :CtrlSF<space>
+nnoremap <leader><C-F> :CtrlSF<space>
 let g:ctrlsf_default_view_mode = 'compact'
 let g:ctrlsf_default_view_mode = 'normal'
 let g:ctrlsf_search_mode = 'async'
@@ -422,7 +426,7 @@ Plug 'rking/ag.vim'
 let g:ackprg = 'ag --vimgrep'
 let g:ag_working_path_mode="r"
 set runtimepath^=~/.vim/bundle/ag
-nnoremap <leader><C-F> :Ag! "" *.py<left>
+"nnoremap <leader><C-F> :Ag! "" *.py<left>
 
 Plug 'Chun-Yang/vim-action-ag'
 " use * to search current word in normal mode
@@ -443,10 +447,10 @@ command! -bang -nargs=* Ag
   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \                 <bang>0)
-nnoremap <silent> <Leader><C-F> :Ag<CR>
+nnoremap <silent> <Leader>f :Ag<CR>
 "nnoremap <silent> <Leader><C-F> :Lines <C-r>=expand("<cword>")<CR> <CR>
 nnoremap <C-P> :GFiles<CR>
-nnoremap <leader><C-P> :GFiles<CR>
+nnoremap <leader><C-P> :Files<CR>
 
 call plug#end()
 
