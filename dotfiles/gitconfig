@@ -12,3 +12,5 @@
 [user]
 	name = Adam
 	email = wzduchina@gmail.com
+[pull]
+	rebase = true

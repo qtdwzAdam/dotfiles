@@ -6,7 +6,7 @@
 alias ll='ls -lh'
 alias la='ll -a'
 alias l='ll'
-alias lg='ll |grep -ni'
+alias lg='ll -alth |grep -ni'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
