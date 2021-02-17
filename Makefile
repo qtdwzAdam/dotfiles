@@ -7,6 +7,8 @@ deps:
 	@sudo apt-get install -y exuberant-ctags tmux; sudo pip install pycscope==0.3
 
 install:
+	@mkdir -p ~/.vim/colors
+	@cp solarized.vim ~/.vim/colors
 	@cd dotfiles; \
 	for f in $$(ls); do \
 		if [ -f ~/.$$f ]; then \

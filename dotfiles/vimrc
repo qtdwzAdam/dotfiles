@@ -218,23 +218,19 @@ Plug 'tpope/vim-surround'
 "let g:EasyGrepMode=2  " 0 - All files, 1 - Bufrers, 2 - Track extension
 
 
-"if !has('python')
-    "" Fuzzy file, buffer, mru, tag, etc finder
-    "" KEYS:
-    ""   <C-P>
-    "Plug 'kien/ctrlp.vim'
-    "let g:ctrlp_cmd='CtrlPMixed'
-    "let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
-"else
-    "Plug 'Yggdroot/LeaderF'
-    "nnoremap <C-P> :LeaderfFile<CR>
-    "nnoremap <leader>l :LeaderfLine<CR>
-    "nnoremap <leader>b :LeaderfBuffer<CR>
-"endif
-Plug 'Yggdroot/LeaderF'
-nnoremap <C-P> :LeaderfFile<CR>
-nnoremap <leader>l :LeaderfLine<CR>
-nnoremap <leader>b :LeaderfBuffer<CR>
+if !has('python')
+    " Fuzzy file, buffer, mru, tag, etc finder
+    " KEYS:
+    "   <C-P>
+    Plug 'kien/ctrlp.vim'
+    let g:ctrlp_cmd='CtrlPMixed'
+    let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+else
+    Plug 'Yggdroot/LeaderF'
+    nnoremap <C-P> :LeaderfFile<CR>
+    nnoremap <leader>l :LeaderfLine<CR>
+    nnoremap <leader>b :LeaderfBuffer<CR>
+endif
 
 
 " Easy commenting of code for many filetypes
@@ -281,7 +277,7 @@ let Tlist_Use_Right_Window=1
 
 " Molokai color scheme
 "Plug 'tomasr/molokai'
-"Plug 'altercation/solarized'
+"Plug 'altercation/vim-colors-solarized'
 "silent! colorscheme default
 "silent! colorscheme molokai
 silent! colorscheme solarized

@@ -73,6 +73,8 @@ set timeout timeoutlen=800 ttimeoutlen=100
 " Color
 syntax enable
 filetype plugin on
+set background=dark
+colorscheme solarized
 
 
 
