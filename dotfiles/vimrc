@@ -280,7 +280,7 @@ let Tlist_Use_Right_Window=1
 "Plug 'altercation/vim-colors-solarized'
 "silent! colorscheme default
 "silent! colorscheme molokai
-silent! colorscheme solarized
+"silent! colorscheme solarized
 
 
 " Awesome Python autocompletion with VIM
