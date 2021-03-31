@@ -211,7 +211,7 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
   source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-export PYTHONSTARTUP=~/.pythonstartup
+#export PYTHONSTARTUP=~/.pythonstartup
 # see http://www.shallowsky.com/linux/noaltscreen.html
 #   http://excid3.com/blog/how-to-fix-esc-in-your-terminal
 export LESS='-rX'
