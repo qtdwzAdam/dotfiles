@@ -224,7 +224,10 @@ if !has('python')
     "   <C-P>
     Plug 'kien/ctrlp.vim'
     let g:ctrlp_cmd='CtrlPMixed'
-    let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc$|node_modules$',
+        \ 'file': '\.exe$\|\.so$\|\.dat$'
+        \ }
 else
     Plug 'Yggdroot/LeaderF'
     nnoremap <C-P> :LeaderfFile<CR>
