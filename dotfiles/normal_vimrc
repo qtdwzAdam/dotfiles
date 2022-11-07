@@ -64,12 +64,6 @@ set tabstop=4
 " set t_ti= t_te=
 set timeout timeoutlen=800 ttimeoutlen=100
 
-" 解决超长行移动光标困难
-:nmap <UP> gk
-:imap <UP> <ESC>gka
-:nmap <DOWN> gj
-:imap <DOWN> <ESC>gja
-
 " Color
 syntax enable
 filetype plugin on
@@ -79,7 +73,6 @@ if g:isMAC == 1
 else
     colorscheme default
 endif
-
 
 
 " Custom key mappings
@@ -125,6 +118,17 @@ imap <m-j> <Down>
 imap <m-k> <Up>
 " Alt  + L            光标右移一格
 imap <m-l> <Right>
+
+" Move cursor together with the screen
+nnoremap <DOWN> gj<C-E>
+nnoremap <UP> gk<C-Y>
+
+" 解决超长行移动光标困难
+:nmap <UP> gk
+:imap <UP> <ESC>gka
+:nmap <DOWN> gj
+:imap <DOWN> <ESC>gja
+
 
 " \c                  复制至公共剪贴板
 vmap <leader>c "+y
@@ -229,14 +233,6 @@ nnoremap <silent> <C-W><C-J> :exe ":res ".(IsMostWin('bottom')?'-':'+').5<CR>
 nnoremap <silent> <C-W><C-K> :exe ":res ".(IsMostWin('bottom')?'+':'-').5<CR>
 nnoremap <silent> <C-W><C-L> :exe ":vertical res ".(IsMostWin('right')?'-':'+').5<CR>
 nnoremap <silent> <C-W><C-H> :exe ":vertical res ".(IsMostWin('right')?'+':'-').5<CR>
-
-" Bash like keys for the command line
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
-
-" Move cursor together with the screen
-nnoremap <DOWN> gj<C-E>
-nnoremap <UP> gk<C-Y>
 
 func! Get_package_name()
     let g:javaPackage = ""
