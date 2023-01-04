@@ -3,20 +3,6 @@
 
 # --show-control-chars: help showing Korean or accented characters
 # some more ls aliases
-alias ll='ls -lh'
-alias la='ll -a'
-alias l='ll'
-alias lg='ll -alth |grep -ni'
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias findword='dict -d gcide'
-alias findsame='dict -d moby-thesaurus'
-alias vimvimrc='vim ~/.vimrc'
-alias vimvimnormal='vim ~/.normal_vimrc'
-alias vimbashrc='vim ~/.bashrc'
 alias cd-='cd -'
 alias sourcebashrc='source ~/.bashrc'
 alias runmanager='python manage.py runserver 0.0.0.0:8000'
@@ -31,7 +17,6 @@ alias gs='git status'
 alias gc='git commit -m'
 alias gcm='git commit --amend'
 alias gd='git diff'
-alias aliasgrep='alias |grep '
 alias myzip='dwzzip'
 alias myarchive='dwzarchive'
 
