@@ -277,19 +277,15 @@ else
     # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
     export PATH="$PATH:$HOME/.rvm/bin"
     export PATH="$PATH:/usr/local/mysql/bin"
-    eval "$(thefuck --alias fuck)"
     #export PYENV_ROOT=/usr/local/var/pyenv
     if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
     # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
     export PATH="$PATH:$HOME/.rvm/bin"
 fi
 
-# include .bashrc if it exists
-if [ -f $HOME/.local_bashrc  ]; then
-    . $HOME/.local_bashrc
-fi
 
 export PATH="~/bin:~/dotfiles:$PATH"
+export PATH=$(pyenv root)/shims:$PATH
 export BAT_THEME="TwoDark"
 
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
